@@ -28,10 +28,7 @@ An advanced AI-powered resume screening and ranking system that uses Natural Lan
 ## 🛠️ Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/ai-resume-scanner.git
-   cd ai-resume-scanner
-   ```
+ 
 
 2. **Install dependencies**
    ```bash
