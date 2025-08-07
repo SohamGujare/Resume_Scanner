@@ -1,0 +1,14 @@
+flask
+pdfminer.six
+python-docx
+pandas
+numpy
+scikit-learn
+transformers
+torch
+tqdm
+nltk
+joblib
+sentence-transformers
+spacy
+pyresparser

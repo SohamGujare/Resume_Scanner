@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Screening Results</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Rajdhani', sans-serif;
+            color: #e0e6ed;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes backgroundShift {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(1deg); }
+        }
+        
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #7fd1b9;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 6s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 7s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 8s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { transform: translateY(50vh) scale(1); opacity: 1; }
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: rgba(30, 34, 44, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.3),
+                0 0 0 1px rgba(127, 209, 185, 0.1),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.8s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .ai-icon {
+            display: block;
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        h1 {
+            text-align: center;
+            color: #7fd1b9;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(127, 209, 185, 0.5);
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            from { text-shadow: 0 0 20px rgba(127, 209, 185, 0.5); }
+            to { text-shadow: 0 0 30px rgba(127, 209, 185, 0.8); }
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #b3bac9;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        
+        .job-desc {
+            background: rgba(35, 40, 58, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            color: #b3bac9;
+            border: 1px solid rgba(127, 209, 185, 0.2);
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-item {
+            border: 1px solid rgba(127, 209, 185, 0.2);
+            margin: 25px 0;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(35, 40, 58, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out both;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .result-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(127, 209, 185, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .result-item:hover::before {
+            left: 100%;
+        }
+        
+        .result-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(127, 209, 185, 0.2);
+            border-color: rgba(127, 209, 185, 0.4);
+        }
+        
+        .filename {
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .final-score {
+            font-weight: bold;
+            color: #7fd1b9;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 10px;
+            background: rgba(127, 209, 185, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(127, 209, 185, 0.3);
+        }
+        
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            background: rgba(26, 30, 42, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(127, 209, 185, 0.1);
+        }
+        
+        .score-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(127, 209, 185, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(127, 209, 185, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .score-item:hover {
+            background: rgba(127, 209, 185, 0.1);
+            transform: scale(1.05);
+        }
+        
+        .score-label {
+            font-size: 0.9rem;
+            color: #b3bac9;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .score-value {
+            font-weight: bold;
+            color: #7fd1b9;
+            font-size: 1.3rem;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .text {
+            margin-top: 20px;
+            color: #b3bac9;
+            font-size: 1rem;
+            line-height: 1.6;
+            padding: 15px;
+            background: rgba(26, 30, 42, 0.5);
+            border-radius: 10px;
+            border-left: 3px solid #7fd1b9;
+        }
+        
+        .keywords-section {
+            margin-top: 20px;
+            background: rgba(26, 30, 42, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(127, 209, 185, 0.1);
+        }
+        
+        .keywords-title {
+            font-weight: bold;
+            color: #7fd1b9;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+        
+        .keywords-list {
+            color: #b3bac9;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #7fd1b9 0%, #3aafa9 50%, #7fd1b9 100%);
+            color: #0c0c0c;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(127, 209, 185, 0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #6c7a89;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+        
+        /* Progress Bar for Scores */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(127, 209, 185, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7fd1b9, #3aafa9);
+            border-radius: 4px;
+            transition: width 1s ease-out;
+            animation: progressGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes progressGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(127, 209, 185, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(127, 209, 185, 0.8); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .ai-icon {
+                font-size: 3rem;
+            }
+            
+            .score-breakdown {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <div class="container">
+        <span class="ai-icon">🤖📄</span>
+        <h1>AI RESUME SCANNER</h1>
+        <div class="subtitle">Advanced Neural Network-Powered Resume Analysis & Ranking System</div>
+        
+        <div class="job-desc">
+            <h3 style="color: #7fd1b9; margin-bottom: 15px;">📋 Job Description:</h3>
+            <p>{{ job_description }}</p>
+        </div>
+        
+        <h2 style="color:#7fd1b9; text-align: center; margin-bottom: 30px; font-family: 'Orbitron', monospace;">
+            🎯 RANKED RESULTS (Most Suitable First)
+        </h2>
+        
+        {% if results %}
+            {% for result in results %}
+                <div class="result-item" style="animation-delay: {{ loop.index * 0.1 }}s;">
+                    <div class="filename">{{ result.filename }}</div>
+                    <div class="final-score">Final Score: {{ result.similarity }}</div>
+                    
+                    <div class="score-breakdown">
+                        <div class="score-item">
+                            <div class="score-label">Semantic Similarity</div>
+                            <div class="score-value">{{ result.semantic_score }}</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ result.semantic_score * 100 }}%"></div>
+                            </div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-label">Keyword Match</div>
+                            <div class="score-value">{{ result.keyword_score }}</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ result.keyword_score * 100 }}%"></div>
+                            </div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-label">Entity Match</div>
+                            <div class="score-value">{{ result.entity_score }}</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ result.entity_score * 100 }}%"></div>
+                            </div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-label">Exact Match</div>
+                            <div class="score-value">{{ result.exact_score }}</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ result.exact_score * 100 }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="keywords-section">
+                        <div class="keywords-title">🔍 Job Keywords:</div>
+                        <div class="keywords-list">{{ result.job_keywords|join(', ') }}</div>
+                    </div>
+                    
+                    <div class="keywords-section">
+                        <div class="keywords-title">📄 Resume Keywords:</div>
+                        <div class="keywords-list">{{ result.resume_keywords|join(', ') }}</div>
+                    </div>
+                    
+                    <div class="text">{{ result.text }}</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="result-item">
+                <p style="text-align: center; color: #b3bac9;">No results to display.</p>
+            </div>
+        {% endif %}
+        
+        <a href="/" class="back-btn">
+            <span>🔙 BACK TO SCANNER</span>
+        </a>
+    </div>
+    
+    <div class="footer">
+        &copy; 2024 AI Resume Screening Tool | Powered by Advanced NLP & Machine Learning
+    </div>
+    
+    <script>
+        // Animate progress bars on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all result items
+        document.querySelectorAll('.result-item').forEach(item => {
+            observer.observe(item);
+        });
+        
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
