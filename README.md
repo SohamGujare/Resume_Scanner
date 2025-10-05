@@ -34,7 +34,7 @@ An advanced AI-powered resume analysis platform that serves both recruiters and 
 ---
 
 ## 🏗️ Project Architecture
-
+```
 ResumePulse/
 ├── app.py # Main Flask application with dashboard
 ├── recruiter.py # Recruiter functionality blueprint
@@ -53,8 +53,7 @@ ResumePulse/
 ├── resume_classifier.joblib
 ├── bert_model.joblib
 └── bert_tokenizer.joblib
-
-
+```
 
 ---
 
@@ -206,5 +205,6 @@ Privacy-first design for recruiters & candidates
 ## 💖 Built With
 
 Python, Flask, NLP, Machine Learning, HTML5, CSS3
+
 ❤️ Advanced AI & ML techniques
 
