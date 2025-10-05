@@ -1,148 +1,199 @@
-# 🤖 AI Resume Screening Tool
+🎯 ResumePulse - AI Resume Analysis Platform
+An advanced AI-powered resume analysis platform that serves both recruiters and job seekers with cutting-edge Natural Language Processing (NLP) and machine learning technologies.
 
-An advanced AI-powered resume screening and ranking system that uses Natural Language Processing (NLP) to automatically evaluate and shortlist resumes based on job descriptions.
+✨ Features
+👔 Recruiter Mode
+Multi-Resume Analysis: Process and rank multiple resumes simultaneously
 
-## ✨ Features
+Smart Candidate Ranking: AI-powered scoring and prioritization
 
-- **Advanced NLP Processing**: Uses Sentence Transformers (SBERT) for semantic similarity
-- **Multi-layered Scoring System**: Combines semantic similarity, keyword matching, entity recognition, and exact phrase matching
-- **Modern Web Interface**: Beautiful dark-themed UI with animations and responsive design
-- **File Support**: Handles PDF and DOCX resume formats
-- **Detailed Analysis**: Provides comprehensive scoring breakdown and keyword extraction
-- **Real-time Processing**: Fast and efficient resume analysis with progress indicators
+Category Classification: Automatic resume categorization using BERT embeddings
 
-## 🚀 Technology Stack
+Detailed Analytics: Comprehensive scoring breakdown with semantic and keyword matching
 
-- **Backend**: Python, Flask
-- **NLP**: Sentence Transformers, spaCy, NLTK
-- **Machine Learning**: Scikit-learn, BERT embeddings
-- **File Processing**: pdfminer.six, python-docx
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Styling**: Modern dark theme with glassmorphism effects
+Batch Processing: Handle multiple PDF/DOCX files efficiently
 
-## 📋 Prerequisites
+🎯 Candidate Mode
+Personalized Suggestions: AI-powered resume improvement recommendations
 
-- Python 3.7 or higher
-- pip (Python package installer)
+Job Matching Score: Real-time compatibility analysis with job descriptions
 
-## 🛠️ Installation
+Skill Gap Analysis: Identify missing skills and keywords
 
-1. **Clone the repository**
- 
+ATS Optimization: Improve resume parsing success rates
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+Career Alignment: Category matching and experience level analysis
 
-3. **Download spaCy model**
-   ```bash
-   python -m spacy download en_core_web_sm
-   ```
+🚀 Technology Stack
+Backend: Python, Flask, Flask Blueprints
 
-4. **Train the model** (First time setup)
-   ```bash
-   python train_model.py
-   ```
+Machine Learning: BERT Transformers, Scikit-learn, Sentence Transformers
 
-## 🎯 Usage
+NLP: spaCy, NLTK, Cosine Similarity
 
-1. **Start the application**
-   ```bash
-   python app.py
-   ```
+File Processing: pdfminer.six, python-docx
 
-2. **Open your browser**
-   Navigate to `http://localhost:5000`
+Frontend: Modern HTML5, CSS3 with Glassmorphism effects
 
-3. **Upload and analyze**
-   - Enter a detailed job description
-   - Upload multiple resumes (PDF/DOCX format)
-   - Click "Analyze & Rank" to get results
+Styling: Advanced animations, gradient backgrounds, responsive design
 
-## 📊 How It Works
-
-### Multi-layered Scoring System
-
-The tool uses a sophisticated scoring algorithm that combines:
-
-1. **Semantic Similarity (40%)**: Uses SBERT embeddings to understand meaning and context
-2. **Keyword Matching (30%)**: Identifies and matches important terms and skills
-3. **Entity Recognition (20%)**: Extracts and matches organizations, locations, and named entities
-4. **Exact Phrase Matching (10%)**: Finds precise matches for specific requirements
-
-### Processing Pipeline
-
-1. **Text Extraction**: Converts PDF/DOCX files to plain text
-2. **Text Preprocessing**: Cleans and normalizes text data
-3. **Feature Extraction**: Generates embeddings and extracts entities
-4. **Similarity Calculation**: Computes multi-dimensional similarity scores
-5. **Ranking**: Sorts resumes by final composite score
-
-## 📁 Project Structure
-
-```
-ai-resume-scanner/
-├── app.py                 # Main Flask application
-├── train_model.py         # Model training script
-├── utils.py              # Utility functions
+🏗️ Project Architecture
+text
+ResumePulse/
+├── app.py                 # Main Flask application with dashboard
+├── recruiter.py           # Recruiter functionality blueprint
+├── candidate.py           # Candidate functionality blueprint  
+├── utils.py              # File processing utilities
+├── train_model.py        # BERT model training script
 ├── requirements.txt      # Python dependencies
-├── resumes.csv          # Training dataset
 ├── templates/           # HTML templates
-│   ├── index.html      # Main upload page
-│   └── results.html    # Results display page
-├── static/             # Static assets (CSS, JS)
-└── README.md          # Project documentation
-```
+│   ├── index.html      # Main dashboard (role selection)
+│   ├── recruiter_dashboard.html    # Recruiter interface
+│   ├── candidate_dashboard.html    # Candidate interface
+│   ├── results.html    # Recruiter results page
+│   └── candidate_results.html    # Candidate analysis results
+├── uploads/             # File upload directory
+└── models/             # Trained ML models
+    ├── resume_classifier.joblib
+    ├── bert_model.joblib
+    └── bert_tokenizer.joblib
+📋 Prerequisites
+Python 3.7 or higher
 
-## 🎨 UI Features
+pip (Python package installer)
 
-- **Dark Modern Theme**: Professional dark interface with cyan accents
-- **Animated Background**: Subtle particle animations and gradient effects
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Interactive Elements**: Hover effects, progress bars, and smooth transitions
-- **Loading Animations**: Visual feedback during processing
+🛠️ Installation & Setup
+Clone the repository
 
-## 🔧 Configuration
+bash
+git clone <your-repository-url>
+cd ResumePulse
+Create virtual environment (Recommended)
 
-### Model Training
+bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+Install dependencies
 
-The system uses a pre-trained model for resume categorization. To retrain:
+bash
+pip install -r requirements.txt
+Download spaCy model
 
-1. Update `resumes.csv` with your training data
-2. Run `python train_model.py`
-3. The model will be saved as `resume_classifier.joblib`
+bash
+python -m spacy download en_core_web_sm
+Train the AI model (First time setup)
 
-### Customization
+bash
+python train_model.py
+Run the application
 
-- Modify scoring weights in `app.py` (lines with `advanced_resume_scoring` function)
-- Adjust UI colors in CSS files
-- Add new file formats in `utils.py`
+bash
+python app.py
+Access the platform
+Navigate to http://localhost:5000 in your browser
 
-## 📈 Performance
+🎯 How to Use
+For Recruiters 👔
+Select "Recruiter Mode" from the main dashboard
 
-- **Processing Speed**: ~2-3 seconds per resume
-- **Accuracy**: High precision through multi-layered scoring
-- **Scalability**: Handles multiple resumes simultaneously
-- **Memory Efficient**: Optimized for large document processing
+Enter the detailed job description
 
-## 🤝 Contributing
+Upload multiple resumes (PDF/DOCX format)
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Get AI-powered rankings with detailed scoring breakdown
 
+Review categorized candidates with confidence scores
 
+For Candidates 🎯
+Select "Candidate Mode" from the main dashboard
 
-## 🙏 Acknowledgments
+Paste your target job description
 
-- **Sentence Transformers**: For semantic similarity calculations
-- **spaCy**: For named entity recognition
-- **Flask**: For the web framework
-- **Google Fonts**: For the beautiful typography
+Upload your resume
 
+Receive personalized improvement suggestions
 
+Get skill gap analysis and keyword optimization tips
 
-**Made with ❤️ using Advanced AI & NLP Technologies** 
+🔬 Technical Implementation
+Multi-Layered AI Analysis
+Recruiter Scoring Algorithm:
+
+Category Matching (70%): BERT-based resume classification
+
+Semantic Similarity (20%): Sentence transformer embeddings
+
+Keyword Matching (10%): TF-IDF and exact term matching
+
+Candidate Suggestion Engine:
+
+Missing keyword identification
+
+Skill gap analysis
+
+Category alignment scoring
+
+Content length optimization
+
+Experience level matching
+
+Machine Learning Pipeline
+Text Extraction: PDF/DOCX to clean text conversion
+
+BERT Embeddings: 768-dimensional vector representations
+
+Classification: Logistic regression on BERT features
+
+Similarity Scoring: Cosine similarity and keyword overlap
+
+Suggestion Generation: Pattern-based improvement recommendations
+
+🎨 UI/UX Features
+Dual-Mode Dashboard: Clean role selection interface
+
+Modern Dark Theme: Professional gradient backgrounds with animations
+
+Responsive Design: Mobile-first approach with seamless cross-device experience
+
+Interactive Elements: Hover effects, loading animations, smooth transitions
+
+Glassmorphism Effects: Advanced CSS backdrop filters and transparency
+
+Particle Animations: Dynamic background elements for enhanced engagement
+
+⚙️ Configuration
+Model Customization
+Retrain the classification model with your data:
+
+bash
+python train_model.py
+Scoring Weights
+Adjust algorithm weights in recruiter.py and candidate.py:
+
+Category matching importance
+
+Semantic similarity factors
+
+Keyword scoring ratios
+
+📊 Performance Metrics
+Processing Speed: 2-4 seconds per resume analysis
+
+Accuracy: High-precision BERT-based categorization
+
+Scalability: Modular architecture supporting multiple concurrent users
+
+File Support: Robust PDF and DOCX parsing
+
+🔒 Data Privacy
+Local processing - no data sent to external servers
+
+Secure file handling with automatic cleanup
+
+Encrypted storage for sensitive information
+
+Privacy-first design for both recruiters and candidates
+
+ResumePulse - Where AI meets career success for both recruiters and job seekers 🚀
+
+Made with ❤️ using Advanced AI & Machine Learning
