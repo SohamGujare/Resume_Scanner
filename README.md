@@ -67,29 +67,44 @@ ResumePulse/
 ## 🛠️ Installation & Setup
 
 ### Clone the repository
+```
 git clone <your-repository-url>
 cd ResumePulse
+```
 
 ### Create virtual environment (Recommended)
+```
 python -m venv venv
-
+```
 ### Activate virtual environment
 #### Linux/macOS
+```
 source venv/bin/activate
+```
 #### Windows
+```
 venv\Scripts\activate
+```
 
 ### Install dependencies
+```
 pip install -r requirements.txt
+```
 
 ### Download spaCy model
+```
 python -m spacy download en_core_web_sm
+```
 
 ### Train the AI model (First-time setup)
+```
 python train_model.py
+```
 
 ### Run the application
+```
 python app.py
+```
 
 ## 🎯 How to Use
 ### For Recruiters 👔
