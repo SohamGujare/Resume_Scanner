@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Analysis Results</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Rajdhani', sans-serif;
+            color: #e0e6ed;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: rgba(30, 34, 44, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            color: #7fd1b9;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .ai-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            color: #7fd1b9;
+            font-size: 2.5rem;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 10px;
+        }
+        
+        .score-card {
+            background: linear-gradient(135deg, #7fd1b9 0%, #3aafa9 100%);
+            color: #0c0c0c;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(127, 209, 185, 0.3);
+        }
+        
+        .score-value {
+            font-size: 4rem;
+            font-weight: 900;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 10px;
+        }
+        
+        .score-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .suggestions-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            color: #7fd1b9;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(127, 209, 185, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .suggestion-card {
+            background: rgba(35, 40, 58, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #7fd1b9;
+            transition: all 0.3s ease;
+        }
+        
+        .suggestion-card:hover {
+            transform: translateX(5px);
+            background: rgba(35, 40, 58, 1);
+        }
+        
+        .suggestion-title {
+            color: #7fd1b9;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .suggestion-description {
+            color: #b3bac9;
+            line-height: 1.5;
+        }
+        
+        .priority-high {
+            border-left-color: #ff6b6b;
+        }
+        
+        .priority-high .suggestion-title {
+            color: #ff6b6b;
+        }
+        
+        .priority-medium {
+            border-left-color: #ffd93d;
+        }
+        
+        .priority-medium .suggestion-title {
+            color: #ffd93d;
+        }
+        
+        .priority-low {
+            border-left-color: #7fd1b9;
+        }
+        
+        .priority-low .suggestion-title {
+            color: #7fd1b9;
+        }
+        
+        .analysis-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .detail-card {
+            background: rgba(35, 40, 58, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .detail-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #7fd1b9;
+            margin-bottom: 5px;
+        }
+        
+        .detail-label {
+            color: #b3bac9;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .action-buttons {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #7fd1b9 0%, #3aafa9 100%);
+            color: #0c0c0c;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(127, 209, 185, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(127, 209, 185, 0.1);
+            color: #7fd1b9;
+            border: 2px solid #7fd1b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/candidate" class="back-btn">← New Analysis</a>
+        
+        <div class="header">
+            <span class="ai-icon">🎯</span>
+            <h1>RESUME ANALYSIS RESULTS</h1>
+        </div>
+        
+        <div class="score-card">
+            <div class="score-value">{{ "%.1f"|format(analysis.final_score) }}%</div>
+            <div class="score-label">Overall Match Score</div>
+        </div>
+        
+        <div class="analysis-details">
+            <div class="detail-card">
+                <div class="detail-value">{{ "%.1f"|format(analysis.semantic_score) }}%</div>
+                <div class="detail-label">Semantic Match</div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-value">{{ "%.1f"|format(analysis.keyword_score) }}%</div>
+                <div class="detail-label">Keyword Match</div>
+            </div>
+            {% if analysis.model_used %}
+            <div class="detail-card">
+                <div class="detail-value">{{ analysis.job_analysis.predicted_category }}</div>
+                <div class="detail-label">Job Category</div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-value">{{ analysis.resume_classification.predicted_category }}</div>
+                <div class="detail-label">Your Resume Category</div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="suggestions-section">
+            <h2 class="section-title">📈 IMPROVEMENT SUGGESTIONS</h2>
+            
+            {% for suggestion in suggestions %}
+            <div class="suggestion-card priority-{{ suggestion.priority }}">
+                <div class="suggestion-title">{{ suggestion.title }}</div>
+                <div class="suggestion-description">{{ suggestion.description }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="action-buttons">
+            <a href="/candidate" class="btn">🔄 Analyze Another</a>
+            <a href="/" class="btn btn-secondary">🏠 Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

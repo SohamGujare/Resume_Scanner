@@ -344,6 +344,34 @@
             0%, 100% { box-shadow: 0 0 5px rgba(127, 209, 185, 0.5); }
             50% { box-shadow: 0 0 15px rgba(127, 209, 185, 0.8); }
         }
+
+        /* Score quality indicators */
+        .score-excellent { color: #4CAF50; }
+        .score-good { color: #8BC34A; }
+        .score-average { color: #FFC107; }
+        .score-poor { color: #FF5722; }
+
+        /* Rank badge */
+        .rank-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #7fd1b9, #3aafa9);
+            color: #0c0c0c;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(127, 209, 185, 0.3);
+        }
+
+        /* AI Classification Highlight */
+        .ai-highlight {
+            background: rgba(76, 175, 80, 0.1) !important;
+            border-color: rgba(76, 175, 80, 0.3) !important;
+            border-left: 4px solid #4CAF50 !important;
+        }
         
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -396,50 +424,50 @@
         
         {% if results %}
             {% for result in results %}
-                <div class="result-item" style="animation-delay: {{ loop.index * 0.1 }}s;">
+                {% set animation_delay = loop.index0 * 0.1 %}
+                <div class="result-item" style="animation-delay: {{ animation_delay }}s;">
+                    <!-- Rank Badge -->
+                    <div class="rank-badge">#{{ loop.index }}</div>
+                    
                     <div class="filename">{{ result.filename }}</div>
-                    <div class="final-score">Final Score: {{ result.similarity }}</div>
+                    
+                    <!-- Final Score with quality indicator -->
+                    {% if result.similarity >= 80 %}
+                        <div class="final-score score-excellent">🏆 Final Score: {{ result.similarity }}% (Excellent)</div>
+                    {% elif result.similarity >= 60 %}
+                        <div class="final-score score-good">✅ Final Score: {{ result.similarity }}% (Good)</div>
+                    {% elif result.similarity >= 40 %}
+                        <div class="final-score score-average">⚠️ Final Score: {{ result.similarity }}% (Average)</div>
+                    {% else %}
+                        <div class="final-score score-poor">❌ Final Score: {{ result.similarity }}% (Needs Improvement)</div>
+                    {% endif %}
                     
                     <div class="score-breakdown">
                         <div class="score-item">
                             <div class="score-label">Semantic Similarity</div>
-                            <div class="score-value">{{ result.semantic_score }}</div>
+                            <div class="score-value">{{ result.semantic_score }}%</div>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: {{ result.semantic_score * 100 }}%"></div>
+                                <div class="progress-fill" style="width: {{ result.semantic_score }}%"></div>
                             </div>
                         </div>
-                        <div class="score-item">
-                            <div class="score-label">Keyword Match</div>
-                            <div class="score-value">{{ result.keyword_score }}</div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: {{ result.keyword_score * 100 }}%"></div>
-                            </div>
-                        </div>
-                        <div class="score-item">
-                            <div class="score-label">Entity Match</div>
-                            <div class="score-value">{{ result.entity_score }}</div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: {{ result.entity_score * 100 }}%"></div>
-                            </div>
-                        </div>
-                        <div class="score-item">
-                            <div class="score-label">Exact Match</div>
-                            <div class="score-value">{{ result.exact_score }}</div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: {{ result.exact_score * 100 }}%"></div>
-                            </div>
+                        
+                    </div>
+
+                    <!-- AI Classification Results -->
+                    {% if result.model_used %}
+                    <div class="keywords-section ai-highlight">
+                        <div class="keywords-title">🤖 AI Classification Results:</div>
+                        <div class="keywords-list">
+                            <strong>Job Category:</strong> {{ result.job_category }} ({{ result.job_confidence }}% confidence)<br>
+                            <strong>Resume Category:</strong> {{ result.resume_category }} ({{ result.resume_confidence }}% confidence)<br>
+                            <strong>Category Match Score:</strong> {{ result.category_match_score }}%<br>
+                            <strong>All Resume Categories:</strong>
+                            {% for category, score in result.all_categories.items() %}
+                                {{ category }}: {{ score }}%{% if not loop.last %}, {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
-                    
-                    <div class="keywords-section">
-                        <div class="keywords-title">🔍 Job Keywords:</div>
-                        <div class="keywords-list">{{ result.job_keywords|join(', ') }}</div>
-                    </div>
-                    
-                    <div class="keywords-section">
-                        <div class="keywords-title">📄 Resume Keywords:</div>
-                        <div class="keywords-list">{{ result.resume_keywords|join(', ') }}</div>
-                    </div>
+                    {% endif %}
                     
                     <div class="text">{{ result.text }}</div>
                 </div>
@@ -469,7 +497,14 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
+                    const progressBars = entry.target.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
                 }
             });
         }, observerOptions);
@@ -488,6 +523,36 @@
                 });
             });
         });
+
+        // Add confetti effect for high scores
+        function celebrateHighScore(score, element) {
+            if (score >= 80) {
+                element.style.animation = 'pulse 0.5s ease-in-out 3';
+                setTimeout(() => {
+                    element.style.animation = '';
+                }, 1500);
+            }
+        }
+
+        // Celebrate high scores
+        document.querySelectorAll('.final-score').forEach(scoreElement => {
+            const scoreText = scoreElement.textContent;
+            const scoreMatch = scoreText.match(/(\d+)%/);
+            if (scoreMatch) {
+                const score = parseInt(scoreMatch[1]);
+                celebrateHighScore(score, scoreElement);
+            }
+        });
+
+        // Add pulse animation for CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
