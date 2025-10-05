@@ -55,6 +55,7 @@ ResumePulse/
 └── bert_tokenizer.joblib
 
 
+
 ---
 
 ## 📋 Prerequisites
@@ -66,35 +67,33 @@ ResumePulse/
 
 ## 🛠️ Installation & Setup
 
-```bash
-# Clone the repository
+### Clone the repository
 git clone <your-repository-url>
 cd ResumePulse
 
-# Create virtual environment (Recommended)
+### Create virtual environment (Recommended)
 python -m venv venv
-# Activate venv
-# Linux/macOS
+
+### Activate virtual environment
+#### Linux/macOS
 source venv/bin/activate
-# Windows
+#### Windows
 venv\Scripts\activate
 
-# Install dependencies
+### Install dependencies
 pip install -r requirements.txt
 
-# Download spaCy model
+### Download spaCy model
 python -m spacy download en_core_web_sm
 
-# Train the AI model (First-time setup)
+### Train the AI model (First-time setup)
 python train_model.py
 
-# Run the application
+### Run the application
 python app.py
 
-Open your browser and navigate to: http://localhost:5000
-
-🎯 How to Use
-For Recruiters 👔
+## 🎯 How to Use
+### For Recruiters 👔
 
 Select "Recruiter Mode" from the main dashboard
 
@@ -106,7 +105,7 @@ Receive AI-powered rankings with detailed scoring breakdown
 
 Review categorized candidates with confidence scores
 
-For Candidates 🎯
+### For Candidates 🎯
 
 Select "Candidate Mode" from the main dashboard
 
@@ -118,10 +117,10 @@ Receive personalized improvement suggestions
 
 Get skill gap analysis and keyword optimization tips
 
-🔬 Technical Implementation
-Multi-Layered AI Analysis
+## 🔬 Technical Implementation
+### Multi-Layered AI Analysis
 
-Recruiter Scoring Algorithm:
+#### Recruiter Scoring Algorithm:
 
 Category Matching (70%): BERT-based resume classification
 
@@ -129,7 +128,7 @@ Semantic Similarity (20%): Sentence transformer embeddings
 
 Keyword Matching (10%): TF-IDF and exact term matching
 
-Candidate Suggestion Engine:
+#### Candidate Suggestion Engine:
 
 Missing keyword identification
 
@@ -141,7 +140,7 @@ Content length optimization
 
 Experience level matching
 
-Machine Learning Pipeline
+#### Machine Learning Pipeline
 
 Text Extraction: PDF/DOCX → Clean text
 
@@ -153,7 +152,7 @@ Similarity Scoring: Cosine similarity & keyword overlap
 
 Suggestion Generation: Pattern-based improvement recommendations
 
-🎨 UI/UX Features
+## 🎨 UI/UX Features
 
 Dual-Mode Dashboard: Clean role selection interface
 
@@ -167,15 +166,15 @@ Glassmorphism Effects: CSS backdrop filters & transparency
 
 Particle Animations: Dynamic background elements
 
-⚙️ Configuration
-Model Customization
+## ⚙️ Configuration
 
+### Model Customization:
 Retrain the classification model with your own data:
 
 python train_model.py
 
-Scoring Weights
 
+### Scoring Weights:
 Adjust algorithm weights in recruiter.py and candidate.py:
 
 Category matching importance
@@ -184,7 +183,7 @@ Semantic similarity factors
 
 Keyword scoring ratios
 
-📊 Performance Metrics
+## 📊 Performance Metrics
 
 Processing Speed: 2–4 seconds per resume
 
@@ -194,7 +193,7 @@ Scalability: Modular architecture supporting concurrent users
 
 File Support: Robust PDF and DOCX parsing
 
-🔒 Data Privacy
+## 🔒 Data Privacy
 
 Local processing – no external server required
 
@@ -204,8 +203,8 @@ Encrypted storage for sensitive data
 
 Privacy-first design for recruiters & candidates
 
-💖 Built With
+## 💖 Built With
 
 Python, Flask, NLP, Machine Learning, HTML5, CSS3
-
 ❤️ Advanced AI & ML techniques
+
